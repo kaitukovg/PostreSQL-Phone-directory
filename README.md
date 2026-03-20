@@ -31,8 +31,8 @@
 
 1. **Клонируйте репозиторий**
    ```bash
-   git clone https://github.com/your-username/phonebook.git
-   cd phonebook
+   https://github.com/kaitukovg/PostreSQL-Phone-directory
+   cd PostreSQL-Phone-directory
    ```
 
 2. **Установите зависимости**
