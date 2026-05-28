@@ -5,10 +5,10 @@ from tkinter import ttk, messagebox, simpledialog
 from datetime import datetime
 
 # Настройки подключения к базе данных
-DB_HOST = "127.0.0.1"
+DB_HOST = "your IP"
 DB_NAME = "postgres"
 DB_USER = "postgres"
-DB_PASS = "111111111"
+DB_PASS = "your database password"
 
 
 class ModernButton(tk.Canvas):
