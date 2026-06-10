@@ -4,7 +4,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from datetime import datetime
 
-# Настройки подключения к базе данных
 DB_HOST = "your IP"
 DB_NAME = "postgres"
 DB_USER = "postgres"
@@ -25,12 +24,10 @@ class ModernButton(tk.Canvas):
         self.corner_radius = corner_radius
         self.text = text
 
-        # Создаем прямоугольник с закругленными углами
         self.rect = self.create_rounded_rect(0, 0, width, height, corner_radius, fill=color)
         self.text_id = self.create_text(width / 2, height / 2, text=text,
                                         fill=text_color, font=font)
 
-        # Привязываем события
         self.bind("<Enter>", self.on_enter)
         self.bind("<Leave>", self.on_leave)
         self.bind("<Button-1>", self.on_click)
@@ -73,7 +70,7 @@ class SearchDialog:
 
     def setup_ui(self):
         """Создание интерфейса диалогового окна поиска"""
-        # Заголовок
+
         header = tk.Frame(self.top, bg='#6f42c1', height=70)
         header.pack(fill='x')
         header.pack_propagate(False)
@@ -83,16 +80,13 @@ class SearchDialog:
                          bg='#6f42c1', fg='white')
         title.pack(pady=22)
 
-        # Основной контейнер
         main_container = tk.Frame(self.top, bg='#f8f9fa', padx=25, pady=25)
         main_container.pack(fill='both', expand=True)
 
-        # Стили для элементов
         label_style = {'font': ('Segoe UI', 11), 'bg': '#f8f9fa', 'fg': '#2c3e50', 'anchor': 'w'}
         entry_style = {'font': ('Segoe UI', 11), 'bg': 'white', 'relief': 'solid', 'bd': 1,
                        'highlightthickness': 1, 'highlightcolor': '#3498db', 'highlightbackground': '#ced4da'}
 
-        # Поля для ФИО
         tk.Label(main_container, text="Фамилия:", **label_style).grid(row=0, column=0, sticky='w', pady=8)
         self.fam_entry = tk.Entry(main_container, **entry_style, width=25)
         self.fam_entry.grid(row=0, column=1, sticky='ew', pady=8, padx=(15, 0))
@@ -105,11 +99,9 @@ class SearchDialog:
         self.otc_entry = tk.Entry(main_container, **entry_style, width=25)
         self.otc_entry.grid(row=2, column=1, sticky='ew', pady=8, padx=(15, 0))
 
-        # Разделитель
         separator1 = tk.Frame(main_container, bg='#dee2e6', height=1)
         separator1.grid(row=3, column=0, columnspan=2, sticky='ew', pady=15)
 
-        # Поля для адреса
         tk.Label(main_container, text="Улица:", **label_style).grid(row=4, column=0, sticky='w', pady=8)
         self.street_entry = tk.Entry(main_container, **entry_style, width=25)
         self.street_entry.grid(row=4, column=1, sticky='ew', pady=8, padx=(15, 0))
@@ -126,25 +118,20 @@ class SearchDialog:
         self.ap_entry = tk.Entry(main_container, **entry_style, width=25)
         self.ap_entry.grid(row=7, column=1, sticky='ew', pady=8, padx=(15, 0))
 
-        # Разделитель
         separator2 = tk.Frame(main_container, bg='#dee2e6', height=1)
         separator2.grid(row=8, column=0, columnspan=2, sticky='ew', pady=15)
 
-        # Поле для телефона
         tk.Label(main_container, text="Телефон:", **label_style).grid(row=9, column=0, sticky='w', pady=8)
         self.teleph_entry = tk.Entry(main_container, **entry_style, width=25)
         self.teleph_entry.grid(row=9, column=1, sticky='ew', pady=8, padx=(15, 0))
 
-        # Подсказка
         hint_label = tk.Label(main_container,
                               text="💡 Подсказка: Введите данные для поиска",
                               font=('Segoe UI', 9), bg='#f8f9fa', fg='#6c757d', justify='left')
         hint_label.grid(row=10, column=0, columnspan=2, sticky='w', pady=(15, 0))
 
-        # Настройка веса колонок для растягивания
         main_container.columnconfigure(1, weight=1)
 
-        # Кнопки
         button_frame = tk.Frame(main_container, bg='#f8f9fa')
         button_frame.grid(row=11, column=0, columnspan=2, sticky='e', pady=(20, 0))
 
@@ -168,12 +155,11 @@ class SearchDialog:
         )
         cancel_btn.pack(side='right')
 
-        # Фокус на первое поле
         self.fam_entry.focus()
 
     def search(self):
         """Обработка нажатия кнопки поиска"""
-        # Собираем все введенные данные
+
         search_data = {
             'fam': self.fam_entry.get().strip(),
             'name': self.name_entry.get().strip(),
@@ -185,7 +171,7 @@ class SearchDialog:
             'teleph': self.teleph_entry.get().strip()
         }
 
-        # Проверяем, что хотя бы одно поле заполнено
+
         if not any(search_data.values()):
             messagebox.showwarning("Предупреждение", "⚠️ Пожалуйста, заполните хотя бы одно поле для поиска")
             return
@@ -223,19 +209,16 @@ class DatabaseViewer:
         self.style = ttk.Style()
         self.style.theme_use('clam')
 
-        # Стиль для заголовка
         self.style.configure('Title.TLabel',
                              font=('Inter', 32, 'bold'),
                              background='#1a237e',
                              foreground='white',
                              padding=20)
 
-        # Стиль для информационных меток
         self.style.configure('Info.TLabel',
                              font=('Segoe UI', 10),
                              foreground='#6c757d')
 
-        # Стиль для таблицы
         self.style.configure('Treeview',
                              font=('Segoe UI', 10),
                              rowheight=30,
@@ -251,7 +234,6 @@ class DatabaseViewer:
         self.style.map('Treeview.Heading',
                        background=[('active', '#2c3e50')])
 
-        # Стиль для статусной строки
         self.style.configure('Status.TLabel',
                              font=('Segoe UI', 9),
                              background='#e9ecef',
@@ -264,7 +246,6 @@ class DatabaseViewer:
         main_container = tk.Frame(self.root, bg='#f8f9fa', padx=20, pady=20)
         main_container.pack(fill='both', expand=True)
 
-        # Заголовок приложения
         header_frame = tk.Frame(main_container, bg='#1a237e', height=120)
         header_frame.pack(fill='x', pady=(0, 20))
         header_frame.pack_propagate(False)
@@ -272,14 +253,12 @@ class DatabaseViewer:
         title_label = ttk.Label(header_frame, text="🏠 ТЕЛЕФОННЫЙ СПРАВОЧНИК 🌍", style='Title.TLabel')
         title_label.pack(fill='both', expand=True)
 
-        # Панель инструментов с кнопками
         toolbar_frame = tk.Frame(main_container, bg='#ffffff', relief='raised', bd=1)
         toolbar_frame.pack(fill='x', pady=(0, 20))
 
         button_container = tk.Frame(toolbar_frame, bg='#ffffff', padx=15, pady=15)
         button_container.pack(fill='x')
 
-        # Основные кнопки операций
         self.add_button = ModernButton(button_container, "➕ Добавить", command=self.add_record, color="#28a745",
                                        hover_color="#218838", width=140)
         self.add_button.pack(side='left', padx=(0, 10))
@@ -306,7 +285,6 @@ class DatabaseViewer:
                                            hover_color="#e36209", width=140)
         self.refresh_button.pack(side='left', padx=(0, 10))
 
-        # Кнопка для управления справочными таблицами
         separator3 = tk.Frame(button_container, bg='#dee2e6', width=1, height=30)
         separator3.pack(side='left', padx=20)
 
@@ -320,7 +298,6 @@ class DatabaseViewer:
         )
         self.reference_button.pack(side='left')
 
-        # Остальная часть UI
         table_container = tk.Frame(main_container, bg='#ffffff', relief='raised', bd=1)
         table_container.pack(fill='both', expand=True, pady=(0, 15))
 
@@ -473,15 +450,15 @@ class DatabaseViewer:
         return None
 
     def update_reference_record(self, table, value_column, id_column, old_id, new_value):
-        #  ИЗМЕНЕНИЕ  """Обновляет запись в справочной таблице или создает новую"""
         if not new_value:
             return None
 
-        # Если old_id не передан, просто создаем/получаем новую запись
+
         if old_id is None:
             return self.get_or_create_id(table, value_column, id_column, new_value)
 
-        # Получаем старое значение
+
+        
         old_value_query = f"SELECT {value_column} FROM {table} WHERE {id_column} = %s"
         old_value_result = self.execute_query(old_value_query, (old_id,), fetch=True)
 
@@ -490,7 +467,7 @@ class DatabaseViewer:
 
         old_value = old_value_result[0][0]
 
-        # Если значение не изменилось, возвращаем старый ID
+
         if old_value == new_value:
             return old_id
 
@@ -503,7 +480,7 @@ class DatabaseViewer:
             # Возвращаем существующий ID, не трогаем старую запись
             return new_id
         else:
-            # Создаем новую запись для нового значения
+
             return self.get_or_create_id(table, value_column, id_column, new_value)
 
     def cleanup_unused_reference(self, table, id_column, record_id):
@@ -511,7 +488,7 @@ class DatabaseViewer:
         if record_id is None:
             return
 
-        # Проверяем, используется ли еще эта запись в основной таблице
+
         column_map = {
             'fam': 'fam',
             'name': 'name',
@@ -527,7 +504,7 @@ class DatabaseViewer:
         count_result = self.execute_query(check_query, (record_id,), fetch=True)
 
         if count_result and count_result[0][0] == 0:
-            # Если больше не используется, удаляем из справочной таблицы
+
             delete_query = f"DELETE FROM {table} WHERE {id_column} = %s"
             self.execute_query(delete_query, (record_id,))
             print(f"Удалена неиспользуемая запись из {table} с ID: {record_id}")
